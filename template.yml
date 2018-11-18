@@ -1,0 +1,38 @@
+# This file is useful for testing with the SAM local, potentially could be used if we wanted to deployments using AWS cloudformation too
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+    ta-html-to-pdf-lambda
+    SAM Template for ta-html-to-pdf-lambda
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 300
+#      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+#        Variables:
+#          TABLE_NAME:
+#          ENDPOINT_OVERRIDE:
+
+Resources:
+
+  HtmlToPdfFunction:
+    # This resource creates a Lambda function.
+    Type: AWS::Serverless::Function
+    
+    Properties:
+      
+      Runtime: java8
+        
+      # This is the Lambda function's handler.
+      Handler: ta.aws.lambda.htmltopdf.HtmlToPdfLambda::handleRequest
+      
+      # The location of the Lambda function code.
+      CodeUri: target/scala-2.12/html-to-pdf.jar
+                
+Outputs:
+
+  GetOrderFunction:
+    Description: "HtmlToPdf Lambda Function ARN"
+    Value: !GetAtt HtmlToPdfFunction.Arn
